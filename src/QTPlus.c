@@ -95,7 +95,7 @@ void qtp_setup_app_message() {
 		TupletCString(QTP_WEATHER_TEMP_F_KEY, "---\u00B0F"),
 		TupletCString(QTP_WEATHER_TEMP_C_KEY, "---\u00B0F"),
 		TupletCString(QTP_WEATHER_CITY_KEY, "Atlanta      "),
-		TupletCString(QTP_WEATHER_DESC_KEY, "                       ")
+		TupletCString(QTP_WEATHER_DESC_KEY, "                                  ")
 	};
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "QTP: weather tuples intialized");
 

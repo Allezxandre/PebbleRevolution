@@ -28,6 +28,7 @@
 					}, 5000);
 				}
 			);
+			Pebble.showSimpleNotificationOnPebble(OK, It goes up there...);
 		};
 
 		/**
@@ -100,8 +101,8 @@
 		var getWeather = function (loc, callback) {
 			var req = new XMLHttpRequest();
 			var url = "http://api.openweathermap.org/data/2.5/weather?" +
-				"lat=" + roundTo(loc.coords.latitude,2) + "&lon=" + roundTo(loc.coords.longitude,2);
-			console.log("Requestiong weather at: " + url);
+				"lat=" + roundTo(loc.coords.latitude,2) + "&lon=" + roundTo(loc.coords.longitude,2) + "&lang=fr"; //changed language
+			console.log("Requesting weather at: " + url);
 			req.open('GET', url, true);
 			req.onload = function(e) {
 				if (req.readyState == 4 && req.status == 200) {
@@ -120,6 +121,8 @@
 							"city": response.name,
 							"description": response.weather[0].main
 						};
+						console.log("Results of request:" + JSON.stringify(response));
+						console.log("Results of parsing:" + JSON.stringify(weather_response));
 						callback(false, weather_response);
 					} else {
 						console.log("Weather response did not include expected elements: " + JSON.stringify(response));
@@ -140,7 +143,7 @@
 		* Main worker function to get location and get weather
 		*/
 		var goWeather = function() {
-			console.log("Requestiong weather...");
+			console.log("Requesting weather...");
 			getLocation(function(err, loc){
 				if (!err) {
 					console.log("Location received ("+ loc.coords.latitude + "," + loc.coords.longitude + "), fetching weather"); 
@@ -155,6 +158,7 @@
 								"3": weather.description,
 								"4": roundTo(weather.temperature,1).toString() + "\u00B0C"
 							});
+							console.log("Launched sendWeather Command line 154");
 						} else {
 							console.log("Unable to retrieve weather");
 							sendWeatherFail();
@@ -180,7 +184,7 @@
 				failed_attempts += 1;
 			}
 			if (failed_attempts < 5) {
-				console.log("Kick off weather");
+				console.log("Erase ancient weather");
 				goWeather();
 			}
 			weather_interval = setInterval(function() {
